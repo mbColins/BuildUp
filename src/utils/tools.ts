@@ -8,10 +8,12 @@ export const Routes = {
   GETSTARTED: 'getStarted',
   LOGIN: 'login',
   FORGOT_PASSWORD: 'forgotPassword',
-  REGISTER: 'Register',
+  REGISTER: 'register',
+  OTP:'otp',
+  RESET_PASSWORD: 'reset',
 
   // Main
-  HOME: 'Home',
+  HOME: 'home',
   PROFILE: 'Profile',
   SETTINGS: 'Settings',
 
@@ -25,6 +27,8 @@ export type RootStackParamList = {
   [Routes.LOGIN]: undefined;
   [Routes.FORGOT_PASSWORD]: undefined;
   [Routes.REGISTER]: undefined;
+  [Routes.OTP]: undefined;
+  [Routes.RESET_PASSWORD]: undefined;
 
   [Routes.HOME]: undefined;
   [Routes.PROFILE]: { userId: string };

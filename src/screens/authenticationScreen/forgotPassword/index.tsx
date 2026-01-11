@@ -2,12 +2,13 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import Logo from '../../../components/Logo'
-import { NavigationProp, width } from '../../../utils/tools'
+import { NavigationProp, Routes, width } from '../../../utils/tools'
 import { Colors, FontSize } from '../../../utils/styles'
 import { ChevronLeft, Mail, Navigation } from 'lucide-react-native'
 import { useForm } from 'react-hook-form'
 import FormInput from '../../../components/TextInput'
 import { useNavigation } from '@react-navigation/native'
+import AuthenticationBtn from '../../../components/AuthenticationBtn'
 
 const ForgotPasswordScreen = () => {
 
@@ -46,9 +47,7 @@ const ForgotPasswordScreen = () => {
                 <Text style={{ paddingHorizontal: 30 }}>You will receive an email containing the otp you will use to reset your password.</Text>
             </View>
             <View style={{ flex: 0.9, justifyContent: 'center', alignItems: 'center' }}>
-                <TouchableOpacity style={styles.submitBtn}>
-                    <Text style={{ color: '#fff' }} >Submit</Text>
-                </TouchableOpacity>
+                <AuthenticationBtn text='sign up' onPress={() => navigation.navigate(Routes.OTP)}/>
             </View>
         </SafeAreaView>
     )

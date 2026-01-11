@@ -8,6 +8,8 @@ import { Colors, FontSize } from '../../../utils/styles'
 import { ChevronLeft, Eye, EyeClosed, Lock, Mail } from 'lucide-react-native'
 import { useNavigation } from '@react-navigation/native'
 import { NavigationProp, Routes, width } from '../../../utils/tools'
+import AuthenticationBtn from '../../../components/AuthenticationBtn'
+import AuthenticationText from '../../../components/AuthenticationText'
 
 
 const LoginScreen = () => {
@@ -17,23 +19,20 @@ const LoginScreen = () => {
 
   const { control, handleSubmit, formState: { errors }, reset } = useForm<FormData>();
 
-  const [showPassWord, SetShowPassWord] = useState(false);
+  const [showPassWord, SetShowPassWord] = useState(true);
 
 
   return (
     <SafeAreaView style={styles.container}>
       <TouchableOpacity
         onPress={() => navigation.goBack()}
-        style={{ alignSelf: 'flex-start', marginLeft: 20}}>
+        style={{ alignSelf: 'flex-start', marginLeft: 20 }}>
         <ChevronLeft size={30} />
       </TouchableOpacity>
       <View style={{ marginTop: 50, marginBottom: 20 }}>
         <Logo />
       </View>
-      <View style={styles.loginMsg}>
-        <Text style={{ fontSize: FontSize.titles, color: Colors.success, fontWeight: 'bold' }}>Welcome Back.</Text>
-        <Text style={{ fontSize: FontSize.md }}>Nice to see you again! login to your account</Text>
-      </View>
+      <AuthenticationText title1='Welcome Back.' title2='Nice to see you again! login to your account' />
       <View style={styles.inputContainer}>
         <View style={{ display: 'flex', flexDirection: 'row', gap: 10, alignItems: 'center', marginBottom: 10 }}>
           <Mail size={30} color={Colors.success} />
@@ -53,7 +52,7 @@ const LoginScreen = () => {
           <TouchableOpacity
             onPress={() => SetShowPassWord(!showPassWord)}
             style={styles.pwdEye}>
-            {!showPassWord ? <Eye color={Colors.success} /> : <EyeClosed color={Colors.success} />}
+            {showPassWord ? <EyeClosed color={Colors.success} /> : <Eye color={Colors.success} />}
           </TouchableOpacity>
           <FormInput
             control={control}
@@ -75,10 +74,8 @@ const LoginScreen = () => {
       </View>
 
       <View style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flex: 0.8, width: width }}>
-        <TouchableOpacity style={styles.loginBtn}>
-          <Text style={{ color: '#fff' }}>Login</Text>
-        </TouchableOpacity>
-        <TouchableOpacity>
+        <AuthenticationBtn text='Sign in' onPress={() => navigation.navigate(Routes.HOME)} />
+        <TouchableOpacity onPress={() => navigation.navigate(Routes.REGISTER)}>
           <Text style={{ marginTop: 20, color: Colors.textSecondary }}>Don't have an account? <Text style={{ color: Colors.success }}>Sign Up</Text></Text>
         </TouchableOpacity>
       </View>
@@ -98,7 +95,7 @@ const styles = StyleSheet.create({
   loginMsg: { flex: 0.1, alignItems: 'flex-start', justifyContent: 'flex-start', marginTop: width / 6, marginBottom: width * 0.1, width: width * 0.8 },
   inputStyle: { backgroundColor: Colors.border, borderBottomWidth: 0 },
   pwdEye: { position: 'absolute', right: 15, top: 10, zIndex: 1 },
-  inputContainer: { marginTop: 10, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 15 },
+  inputContainer: { marginTop: 30, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 15 },
   forgotPwdContainer: { justifyContent: 'flex-end', alignItems: 'flex-end', marginTop: 20, width: width * 0.8 },
   loginBtn: { width: width * 0.8, backgroundColor: Colors.success, padding: 15, borderRadius: 10, justifyContent: 'center', alignItems: 'center' }
 })
