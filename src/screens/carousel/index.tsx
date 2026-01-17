@@ -9,6 +9,8 @@ import { useNavigation } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
 
 const { width, height } = Dimensions.get('window');
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
+
 
 
 
@@ -114,12 +116,11 @@ export default CarrouselScreen
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: 50,
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
     width: width,
-    height: height
+    height: hp('100%')
   },
   image: {
     width: width,
@@ -138,7 +139,7 @@ const styles = StyleSheet.create({
     width: width,
     padding: 20,
     flex: 0.5,
-    marginTop: 20,
+    marginTop: 50,
   },
   description: {
     fontSize: FontSize.description,

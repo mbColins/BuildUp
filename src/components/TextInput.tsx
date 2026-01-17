@@ -2,6 +2,8 @@ import React from 'react';
 import { Controller, Control, FieldErrors } from 'react-hook-form';
 import { TextInput, View, Text, StyleSheet, TextStyle, KeyboardTypeOptions } from 'react-native';
 import { Colors } from '../utils/styles';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+
 
 
 interface FormInputProps {
@@ -54,7 +56,7 @@ const styles = StyleSheet.create({
         marginBottom: 5,
     },
     input: {
-        width: 340,
+        width: wp('85%'),
         backgroundColor: '#020221',
         borderColor: '#ccc',
         borderBottomWidth: 1,

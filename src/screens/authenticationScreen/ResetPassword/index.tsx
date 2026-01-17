@@ -10,6 +10,8 @@ import { Colors } from '../../../utils/styles'
 import { useForm } from 'react-hook-form'
 import FormInput from '../../../components/TextInput'
 import AuthenticationBtn from '../../../components/AuthenticationBtn'
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+
 
 const ResetPasswordScreen = () => {
 
@@ -22,7 +24,7 @@ const ResetPasswordScreen = () => {
         <SafeAreaView style={styles.container}>
             <TouchableOpacity
                 onPress={() => navigation.goBack()}
-                style={{ alignSelf: 'flex-start', marginLeft: 20, marginTop: 10 }}>
+                style={{ alignSelf: 'flex-start', marginLeft: wp('1%'), paddingTop: hp('2%') }}>
                 <ChevronLeft size={30} />
             </TouchableOpacity>
             <View style={{ marginTop: 50, marginBottom: 20 }}>
@@ -66,7 +68,7 @@ const ResetPasswordScreen = () => {
                     />
                 </View>
             </View>
-            <View style={{ marginTop: width / 2 }}>
+            <View style={{ marginTop: hp('20%') }}>
                 <AuthenticationBtn text='reset password' onPress={() => navigation.navigate(Routes.LOGIN)} />
             </View>
         </SafeAreaView>
@@ -76,7 +78,7 @@ const ResetPasswordScreen = () => {
 export default ResetPasswordScreen
 
 const styles = StyleSheet.create({
-    container: { flex: 1, alignItems: 'center' },
+    container: { flex: 1, alignItems: 'center' ,backgroundColor:'#fff'},
     pwdEye: { position: 'absolute', right: 15, top: 20, zIndex: 1 },
     inputStyle: { backgroundColor: Colors.border, borderBottomWidth: 0, marginTop: 10 },
     inputContainer: { marginTop: 20, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 15 },

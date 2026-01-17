@@ -10,6 +10,7 @@ import { useNavigation } from '@react-navigation/native'
 import { NavigationProp, Routes, width } from '../../../utils/tools'
 import AuthenticationBtn from '../../../components/AuthenticationBtn'
 import AuthenticationText from '../../../components/AuthenticationText'
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 
 const LoginScreen = () => {
@@ -22,14 +23,15 @@ const LoginScreen = () => {
   const [showPassWord, SetShowPassWord] = useState(true);
 
 
+
   return (
     <SafeAreaView style={styles.container}>
       <TouchableOpacity
         onPress={() => navigation.goBack()}
-        style={{ alignSelf: 'flex-start', marginLeft: 20 }}>
+        style={{ alignSelf: 'flex-start', marginLeft: wp('1%'),paddingTop:hp('2%') }}>
         <ChevronLeft size={30} />
       </TouchableOpacity>
-      <View style={{ marginTop: 50, marginBottom: 20 }}>
+      <View style={{ marginTop: hp('4%'), marginBottom: hp('10%') }}>
         <Logo />
       </View>
       <AuthenticationText title1='Welcome Back.' title2='Nice to see you again! login to your account' />
@@ -76,7 +78,7 @@ const LoginScreen = () => {
       <View style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flex: 0.8, width: width }}>
         <AuthenticationBtn text='Sign in' onPress={() => navigation.navigate(Routes.HOME)} />
         <TouchableOpacity onPress={() => navigation.navigate(Routes.REGISTER)}>
-          <Text style={{ marginTop: 20, color: Colors.textSecondary }}>Don't have an account? <Text style={{ color: Colors.success }}>Sign Up</Text></Text>
+          <Text style={{ marginTop: hp('3%'), color: Colors.textSecondary }}>Don't have an account? <Text style={{ color: Colors.success }}>Sign Up</Text></Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
@@ -88,7 +90,7 @@ export default LoginScreen
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // justifyContent:'center',
+    width: wp('100%'),
     alignItems: 'center',
     backgroundColor: '#fff'
   },
@@ -96,6 +98,6 @@ const styles = StyleSheet.create({
   inputStyle: { backgroundColor: Colors.border, borderBottomWidth: 0 },
   pwdEye: { position: 'absolute', right: 15, top: 10, zIndex: 1 },
   inputContainer: { marginTop: 30, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 15 },
-  forgotPwdContainer: { justifyContent: 'flex-end', alignItems: 'flex-end', marginTop: 20, width: width * 0.8 },
+  forgotPwdContainer: { justifyContent: 'flex-end', alignItems: 'flex-end', marginTop: hp('5%'), width: wp('100%'),paddingRight:20 },
   loginBtn: { width: width * 0.8, backgroundColor: Colors.success, padding: 15, borderRadius: 10, justifyContent: 'center', alignItems: 'center' }
 })

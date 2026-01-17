@@ -9,6 +9,8 @@ import { useForm } from 'react-hook-form'
 import FormInput from '../../../components/TextInput'
 import { useNavigation } from '@react-navigation/native'
 import AuthenticationBtn from '../../../components/AuthenticationBtn'
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+
 
 const ForgotPasswordScreen = () => {
 
@@ -20,13 +22,13 @@ const ForgotPasswordScreen = () => {
         <SafeAreaView style={styles.container}>
             <TouchableOpacity
                 onPress={() => navigation.goBack()}
-                style={{ alignSelf: 'flex-start', marginLeft: 20, marginTop: 10 }}>
+                style={{ alignSelf: 'flex-start', marginLeft: wp('1%'), paddingTop:hp('2%') }}>
                 <ChevronLeft size={30} />
             </TouchableOpacity>
             <View style={{ marginTop: 50, marginBottom: 20 }}>
                 <Logo />
             </View>
-            <View style={{ alignItems: 'flex-start', width: '100%', paddingHorizontal: 20, marginTop: width / 4 }}>
+            <View style={{ alignItems: 'flex-start', width: '100%', paddingHorizontal: wp('5%'), marginTop: width / 4 }}>
                 <Text style={{ fontSize: FontSize.titles, fontWeight: 'bold' }}>Hi,</Text>
                 <Text style={{ fontSize: FontSize.description }}>Looks like you forgot your password!</Text>
             </View>
@@ -44,7 +46,7 @@ const ForgotPasswordScreen = () => {
                         keyboardType='email-address'
                     />
                 </View>
-                <Text style={{ paddingHorizontal: 30 }}>You will receive an email containing the otp you will use to reset your password.</Text>
+                <Text style={{ paddingHorizontal: 30, textAlign:'left',width:wp('100%') }}>You will receive an email containing the otp you will use to reset your password.</Text>
             </View>
             <View style={{ flex: 0.9, justifyContent: 'center', alignItems: 'center' }}>
                 <AuthenticationBtn text='sign up' onPress={() => navigation.navigate(Routes.OTP)}/>
@@ -58,7 +60,7 @@ export default ForgotPasswordScreen
 const styles = StyleSheet.create({
     container: { flex: 1, alignItems: 'center', backgroundColor: Colors.background },
     inputStyle: { backgroundColor: Colors.border, borderBottomWidth: 0, marginTop: 10 },
-    inputContainer: { flex: 0.4, marginTop: 20, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 15 },
+    inputContainer: { flex: 0.4, marginTop: hp('4%'), display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 15 },
     submitBtn: { width: width * 0.8, backgroundColor: Colors.success, padding: 15, borderRadius: 10, justifyContent: 'center', alignItems: 'center' }
 
 })

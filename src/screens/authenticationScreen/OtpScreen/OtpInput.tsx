@@ -10,6 +10,8 @@ import {
   NativeSyntheticEvent,
 } from "react-native";
 import { Colors } from "../../../utils/styles";
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+
 
 type Props = {
   length?: number;
@@ -26,7 +28,7 @@ const  OtpInput:React.FC<Props> = ({
   onChange,
   onComplete,
   autoFocus = true,
-  boxSize = 52,
+  boxSize = 40,
   boxStyle,
   containerStyle,
 }) =>{
@@ -175,8 +177,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    // gap is supported in newer RN versions; keep margin fallback on box
-    // gap: 12,
+   
   },
   box: {
     borderWidth: 1.2,

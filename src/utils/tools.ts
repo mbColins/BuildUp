@@ -16,6 +16,12 @@ export const Routes = {
   HOME: 'home',
   PROFILE: 'Profile',
   SETTINGS: 'Settings',
+  SERVICES: 'service',
+  SERVICE_DETAILS: 'serviceDetails',
+  PROFILE_DETAILS: 'profileDetails',
+  ENGINEERS:'engineers',
+  PROJECTS:'projects',
+  PROJECTS_DETAILS:'projectDetails',
 
   // Others
   DETAILS: 'Details',
@@ -29,10 +35,16 @@ export type RootStackParamList = {
   [Routes.REGISTER]: undefined;
   [Routes.OTP]: undefined;
   [Routes.RESET_PASSWORD]: undefined;
+  [Routes.ENGINEERS]: undefined;
+  [Routes.PROJECTS]: undefined;
+  [Routes.PROJECTS_DETAILS]: undefined;
 
   [Routes.HOME]: undefined;
   [Routes.PROFILE]: { userId: string };
   [Routes.SETTINGS]: undefined;
+  [Routes.SERVICES]: undefined;
+  [Routes.SERVICE_DETAILS]: undefined;
+  [Routes.PROFILE_DETAILS]: undefined;
 
   [Routes.DETAILS]: { id: string };
 };

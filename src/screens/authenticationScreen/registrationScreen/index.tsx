@@ -9,6 +9,7 @@ import { Colors, FontSize } from '../../../utils/styles'
 import { useForm } from 'react-hook-form'
 import FormInput from '../../../components/TextInput'
 import AuthenticationBtn from '../../../components/AuthenticationBtn'
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 
 const RegistrationScreen = () => {
@@ -21,7 +22,7 @@ const RegistrationScreen = () => {
         <SafeAreaView style={styles.container}>
             <TouchableOpacity
                 onPress={() => navigation.goBack()}
-                style={{ alignSelf: 'flex-start', marginLeft: 20, marginTop: 10 }}>
+                style={{ alignSelf: 'flex-start', marginLeft: wp('1%'), paddingTop: hp('2%') }}>
                 <ChevronLeft size={30} />
             </TouchableOpacity>
             <View style={{ marginTop: 50, marginBottom: 20 }}>
@@ -91,7 +92,7 @@ const RegistrationScreen = () => {
                 <TouchableOpacity>
                     <Text>Agree to <Text style={{ color: Colors.success }}>terms</Text> and <Text style={{ color: Colors.success }}>conditions</Text></Text>
                 </TouchableOpacity>
-                <AuthenticationBtn text='sign up' onPress={() => navigation.navigate(Routes.LOGIN)}/>
+                <AuthenticationBtn text='sign up' onPress={() => navigation.navigate(Routes.LOGIN)} />
                 <TouchableOpacity onPress={() => navigation.navigate(Routes.LOGIN)}>
                     <Text>Already have an account? <Text style={{ color: Colors.success }}>login</Text></Text>
                 </TouchableOpacity>
@@ -104,9 +105,9 @@ export default RegistrationScreen
 
 const styles = StyleSheet.create({
     container: { flex: 1, alignContent: 'center', backgroundColor: '#fff' },
-    inputContainer: { marginTop: 10, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 15 },
-    inputStyle: { backgroundColor: Colors.border, borderBottomWidth: 0, marginTop: 10 },
-    pwdEye: { position: 'absolute', right: 15, top: 20, zIndex: 1 },
+    inputContainer: { marginTop: hp('1%'), display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10 },
+    inputStyle: { backgroundColor: Colors.border, borderBottomWidth: 0, marginTop: 5 },
+    pwdEye: { position: 'absolute', right: wp('5%'), top: hp('2%'), zIndex: 1 },
     loginBtn: { width: width * 0.8, backgroundColor: Colors.success, padding: 15, borderRadius: 10, justifyContent: 'center', alignItems: 'center' }
 
 

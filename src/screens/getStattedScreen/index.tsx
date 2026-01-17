@@ -8,6 +8,8 @@ import { Globe } from 'lucide-react-native';
 
 
 const { width, height } = Dimensions.get('screen');
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
+
 
 
 const GetStartedScreen = () => {
@@ -57,7 +59,7 @@ const styles = StyleSheet.create({
         width: 300,
         height: 300,
         left: width / 10,
-        top: 150,
+        top: hp("5%"),
         justifyContent: 'center',
         alignItems: 'center',
     },
@@ -65,7 +67,7 @@ const styles = StyleSheet.create({
         fontSize: FontSize.description,
         fontStyle: 'italic',
         textAlign: 'center',
-        marginVertical: height / 6,
+        marginVertical: hp('20%'),
         color: Colors.textSecondary,
     },
     buttonText: {
