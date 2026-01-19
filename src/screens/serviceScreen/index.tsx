@@ -109,12 +109,12 @@ const services: ItemProps[] = [
     category: 'construction',
     // startingPrice: 20000,
     available: true,
-    
+
   },
 ]
 
 
-const Item = ({ title, img, category, available, description,onPress }: ItemProps) => (
+const Item = ({ title, img, category, available, description, onPress }: ItemProps) => (
   <TouchableOpacity style={styles.card} onPress={onPress}>
     <View style={styles.imageContainer}>
       <Image
@@ -156,7 +156,9 @@ const ServiceScreen = () => {
       </View>
       <FlatList
         data={services}
-        renderItem={({ item }) => <Item id={item.id} title={item.title} img={item.img} category={item.category} description={item.description} available={item.available} onPress={() => navigation.navigate(Routes.SERVICE_DETAILS)}/>}
+        renderItem={({ item }) => <Item id={item.id}
+          title={item.title}
+          img={item.img} category={item.category} description={item.description} available={item.available} onPress={() => navigation.navigate(Routes.SERVICE_DETAILS)} />}
         keyExtractor={(item) => item.id.toString()}
         numColumns={1}
         showsVerticalScrollIndicator={false}
@@ -175,9 +177,9 @@ export default ServiceScreen
 
 const styles = StyleSheet.create({
   container: { flex: 1, alignContent: 'center', width: wp('100%'), backgroundColor: '#fff' },
-  searchContainer: { width: wp('85%'), display: 'flex', flexDirection: 'row',  marginHorizontal: wp('5%'), marginVertical: hp('2%') },
+  searchContainer: { width: wp('85%'), display: 'flex', flexDirection: 'row', marginHorizontal: wp('5%'), marginVertical: hp('2%') },
   inputStyle: { width: wp('80%'), borderBottomWidth: 0.4, paddingVertical: hp('1%') },
-  btn: { width: wp('10%'),  display: 'flex', justifyContent: 'center', padding: 5, borderBottomColor:'gray' },
+  btn: { width: wp('10%'), display: 'flex', justifyContent: 'center', padding: 5, borderBottomColor: 'gray' },
   card: {
     backgroundColor: '#fff',
     borderRadius: 10,

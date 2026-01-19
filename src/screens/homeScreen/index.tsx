@@ -24,6 +24,11 @@ type topRatedEngineersProps = {
   startingPrice: number
 }
 
+type topRatedEng = {
+  item: topRatedEngineersProps,
+  onPress: () => void
+}
+
 type recentProjectsProps = {
   id: number,
   title: string,
@@ -181,8 +186,8 @@ const Item = ({ title, img, onPress }: Itemprops) => (
   </TouchableOpacity>
 )
 
-const renderTopRatedEngineer = ({ item }: { item: topRatedEngineersProps }) => (
-  <View style={styles.engineerCard}>
+const RenderTopRatedEngineer = ({ item, onPress }:topRatedEng ) => (
+  <Pressable style={styles.engineerCard} onPress={onPress}>
     <Image source={item.img} style={styles.engineerImage} resizeMode="cover" />
     <View style={styles.engineerInfo}>
       <Text style={styles.engineerName}>{item.name}</Text>
@@ -195,7 +200,7 @@ const renderTopRatedEngineer = ({ item }: { item: topRatedEngineersProps }) => (
     <TouchableOpacity style={styles.hireButton} onPress={() => Alert.alert('Hire', `Hire ${item.name} from $${item.startingPrice}?`, [{ text: 'Cancel' }, { text: 'Confirm', onPress: () => { /* TODO: implement hiring */ } }])}>
       <Text style={styles.hireButtonText}>Hire Me</Text>
     </TouchableOpacity>
-  </View>
+  </Pressable>
 )
 
 const RenderRecentProjects = ({ item, onPress }: recentProjects ) => (
@@ -278,7 +283,7 @@ const HomeScreen = () => {
         <View>
           <FlatList
             data={topRatedEngineers}
-            renderItem={renderTopRatedEngineer}
+            renderItem={({item}) => <RenderTopRatedEngineer item={item} onPress={() => navigation.navigate(Routes.PROFILE_DETAILS)}/>}
             keyExtractor={(item) => item.id.toString()}
             horizontal
             showsHorizontalScrollIndicator={false}

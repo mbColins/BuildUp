@@ -24,6 +24,8 @@ export const Colors = {
   background: '#FFFFFF',
   border: '#faf8f8',
 
+  star:'#cdc71b',
+
   error: '#FF3B30',
   success: '#089447',
 
