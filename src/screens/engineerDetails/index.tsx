@@ -5,6 +5,9 @@ import CustomeHeader from '../../components/CustomeHeader'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { Colors } from '../../utils/styles';
 import { ArrowRight, CircleAlert, CircleArrowLeft, CircleArrowRight, MapPin, Pointer, Star } from 'lucide-react-native';
+import { useTranslation } from 'react-i18next';
+import { useNavigation } from '@react-navigation/native';
+import { NavigationProp, Routes } from '../../utils/tools';
 
 type workExperienceProps = {
   id: number,
@@ -26,6 +29,11 @@ type ratingProps = {
   rate: string,
   client: string,
   star: number
+}
+
+type certificationProps = {
+  id: number,
+  certificate: string
 }
 
 const WorkExperience: workExperienceProps[] = [
@@ -98,8 +106,23 @@ const Ratings: ratingProps[] = [
   },
 ]
 
+const Certifications: certificationProps[] = [
+  {
+    id: 1,
+    certificate: " Bachelo in civil engineering, University of Douala(2015)"
+  },
+  {
+    id: 2,
+    certificate: " Professional engineer(PE) liscense cameroon (2018)"
+  },
+]
+
 
 const EngineerDetails = () => {
+
+  const { t } = useTranslation();
+  const navigation = useNavigation<NavigationProp>()
+
   return (
     <SafeAreaProvider style={styles.container}>
       <CustomeHeader text='Engineer profile' />
@@ -133,7 +156,7 @@ const EngineerDetails = () => {
         <View style={styles.educationCard}>
           {
             Skils.map((item) => (
-              <Text style={{ padding: 5, fontSize: 14, width: wp('90%') }}><CircleArrowRight size={15} /> AutoCad</Text>
+              <Text style={{ padding: 5, fontSize: 14, width: wp('90%') }}><CircleArrowRight size={15} /> {item.skill} </Text>
             ))
           }
         </View>
@@ -146,7 +169,9 @@ const EngineerDetails = () => {
             ))
           }
           <View>
-            <TouchableOpacity style={{ display: 'flex', flexDirection: 'row', gap: 10, justifyContent: 'center', marginTop: 10, padding: 4 }}>
+            <TouchableOpacity
+            onPress = {() => navigation.navigate(Routes.PORTOFOLIO)}
+            style={{ display: 'flex', flexDirection: 'row', gap: 10, justifyContent: 'center', marginTop: 10, padding: 4 }}>
               <Text style={{ color: Colors.success, fontStyle: 'italic' }}>visit my portofolio for more details</Text>
               <ArrowRight color={Colors.success} size={20} />
             </TouchableOpacity>
@@ -164,7 +189,7 @@ const EngineerDetails = () => {
                 </View>
                 <Text><Star size={14} color={Colors.star} /> ({item.star}) </Text>
               </View>
-            )).slice(0,4)
+            )).slice(0, 4)
           }
           <TouchableOpacity style={{ display: 'flex', flexDirection: 'row', gap: '10', justifyContent: 'center', marginTop: 5 }}>
             <Text style={{ color: Colors.success }}>see what users say about john doe</Text>
@@ -173,8 +198,11 @@ const EngineerDetails = () => {
         </View>
         <Text style={{ marginTop: 10, fontSize: 20 }}>Education & Certification</Text>
         <View style={styles.educationCard}>
-          <Text style={{ padding: 5, fontSize: 14, width: wp('90%') }}><CircleArrowRight size={15} /> Bachelo in civil engineering, University of Douala(2015) </Text>
-          <Text style={{ padding: 5, fontSize: 14, width: wp('90%') }}><CircleArrowRight size={15} /> Professional engineer(PE) liscense cameroon (2018)  </Text>
+          {
+            Certifications.map((item) => (
+              <Text style={{ padding: 5, fontSize: 14, width: wp('90%') }}><CircleArrowRight size={15} /> {item.certificate} </Text>
+            ))
+          }
         </View>
         <Text style={{ marginTop: 10, fontSize: 20 }}>Pricing</Text>
         <View style={styles.educationCard}>

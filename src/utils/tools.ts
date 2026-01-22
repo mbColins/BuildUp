@@ -22,6 +22,7 @@ export const Routes = {
   ENGINEERS:'engineers',
   PROJECTS:'projects',
   PROJECTS_DETAILS:'projectDetails',
+  PORTOFOLIO:'portofolio',
 
   // Others
   DETAILS: 'Details',
@@ -38,6 +39,7 @@ export type RootStackParamList = {
   [Routes.ENGINEERS]: undefined;
   [Routes.PROJECTS]: undefined;
   [Routes.PROJECTS_DETAILS]: undefined;
+  [Routes.PORTOFOLIO]: undefined;
 
   [Routes.HOME]: undefined;
   [Routes.PROFILE]: { userId: string };
