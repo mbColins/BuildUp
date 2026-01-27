@@ -1,6 +1,6 @@
 import { FlatList, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import React from 'react'
-import { SafeAreaProvider } from 'react-native-safe-area-context'
+import {SafeAreaView } from 'react-native-safe-area-context'
 import CustomeHeader from '../../components/CustomeHeader'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
@@ -15,7 +15,7 @@ const EngineerScreen = () => {
     const navigation = useNavigation<NavigationProp>()
 
     return (
-        <SafeAreaProvider style={styles.container}>
+        <SafeAreaView style={styles.container}>
             <CustomeHeader text='engineers' />
             <View style={styles.searchContainer}>
                 <TextInput style={styles.inputStyle}
@@ -38,7 +38,7 @@ const EngineerScreen = () => {
                 updateCellsBatchingPeriod={50}
                 initialNumToRender={10}
             />
-        </SafeAreaProvider>
+        </SafeAreaView>
     )
 }
 

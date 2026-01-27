@@ -1,12 +1,12 @@
 import { ImageSourcePropType, StyleSheet, Text, View, Image, FlatList, ScrollView, Pressable } from 'react-native'
 import React from 'react'
-import { SafeAreaProvider } from 'react-native-safe-area-context'
 import CustomeHeader from '../../components/CustomeHeader'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen'
 import { Colors, FontSize } from '../../utils/styles'
 import { useNavigation } from '@react-navigation/native'
 import { NavigationProp, Routes } from '../../utils/tools'
 import EngineerCard from '../../components/EngineerCard'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 type ItemProps = {
     id: number
@@ -141,7 +141,7 @@ const ServicesDetailScreen = () => {
     const navigation = useNavigation<NavigationProp>()
 
     return (
-        <SafeAreaProvider style={styles.container}>
+        <SafeAreaView style={styles.container}>
             <CustomeHeader text='Service Detail' />
             <View style={styles.card}>
                 <Image
@@ -167,8 +167,8 @@ const ServicesDetailScreen = () => {
             <FlatList
                 data={engineers}
                 keyExtractor={(item) => item.id.toString()}
-                renderItem={({ item }) => <EngineerCard engineer={item} onPress={() => navigation.navigate(Routes.PROFILE_DETAILS)}/>}
-                 numColumns={1}
+                renderItem={({ item }) => <EngineerCard engineer={item} onPress={() => navigation.navigate(Routes.PROFILE_DETAILS)} />}
+                numColumns={1}
                 showsVerticalScrollIndicator={false}
                 scrollEnabled={true}
                 removeClippedSubviews={true}
@@ -178,7 +178,7 @@ const ServicesDetailScreen = () => {
             />
             {/* </View> */}
 
-        </SafeAreaProvider>
+        </SafeAreaView>
     )
 }
 

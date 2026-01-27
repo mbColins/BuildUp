@@ -3,7 +3,7 @@ import React from 'react'
 import CustomeHeader from '../../components/CustomeHeader'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { Search } from 'lucide-react-native';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { Colors, FontSize } from '../../utils/styles';
 import { useNavigation } from '@react-navigation/native';
 import { NavigationProp, Routes } from '../../utils/tools';
@@ -143,7 +143,7 @@ const ServiceScreen = () => {
   const navigation = useNavigation<NavigationProp>()
 
   return (
-    <SafeAreaProvider style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <CustomeHeader text='Services/engineers' />
       <View style={styles.searchContainer}>
         <TextInput style={styles.inputStyle}
@@ -169,7 +169,7 @@ const ServiceScreen = () => {
         updateCellsBatchingPeriod={50}
         initialNumToRender={10}
       />
-    </SafeAreaProvider>
+    </SafeAreaView>
   )
 }
 

@@ -1,13 +1,13 @@
 import { Image, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
-import { SafeAreaProvider } from 'react-native-safe-area-context'
 import CustomeHeader from '../../components/CustomeHeader'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { Colors } from '../../utils/styles';
-import { ArrowRight, CircleAlert, CircleArrowLeft, CircleArrowRight, MapPin, Pointer, Star } from 'lucide-react-native';
+import { ArrowRight, CircleArrowRight, MapPin,Star } from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
 import { useNavigation } from '@react-navigation/native';
 import { NavigationProp, Routes } from '../../utils/tools';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 type workExperienceProps = {
   id: number,
@@ -124,7 +124,7 @@ const EngineerDetails = () => {
   const navigation = useNavigation<NavigationProp>()
 
   return (
-    <SafeAreaProvider style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <CustomeHeader text='Engineer profile' />
       <View style={styles.engContainer}>
         <Image
@@ -223,7 +223,7 @@ const EngineerDetails = () => {
           <Text style={{ textAlign: 'center', color: Colors.success }}>Available for all your construction works</Text>
         </View>
       </ScrollView>
-    </SafeAreaProvider>
+    </SafeAreaView>
   )
 }
 

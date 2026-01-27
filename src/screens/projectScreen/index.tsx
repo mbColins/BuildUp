@@ -1,6 +1,6 @@
 import { FlatList, ImageSourcePropType, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import React from 'react'
-import { SafeAreaProvider } from 'react-native-safe-area-context'
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context'
 import CustomeHeader from '../../components/CustomeHeader'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen'
 import { Search } from 'lucide-react-native'
@@ -152,7 +152,7 @@ const ProjectScreen = () => {
 const navigation = useNavigation<NavigationProp>()
 
     return (
-        <SafeAreaProvider style={styles.container}>
+        <SafeAreaView style={styles.container}>
             <CustomeHeader text='Projects' />
             <View style={styles.searchContainer}>
                 <TextInput style={styles.inputStyle}
@@ -171,7 +171,7 @@ const navigation = useNavigation<NavigationProp>()
                 contentContainerStyle={{ paddingHorizontal: 6, paddingVertical: 10 }}
                 ItemSeparatorComponent={() => <View style={{ width: 10 }} />}
             />
-        </SafeAreaProvider>
+        </SafeAreaView>
     )
 }
 

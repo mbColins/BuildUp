@@ -233,7 +233,6 @@ const HomeScreen = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView>
         <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', borderBottomWidth: 0.5, borderColor: Colors.textSecondary }}>
           <View style={{ display: 'flex', flexDirection: 'row', gap: 5, paddingVertical: 4 }}>
             <TouchableOpacity>
@@ -256,6 +255,7 @@ const HomeScreen = () => {
             </TouchableOpacity>
           </View>
         </View>
+      <ScrollView>
         <View style={{ backgroundColor: "#fff", marginTop: 10 }}>
           <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 5 }}>
             <Text style={{ marginTop: 15 }}>services (engineering)</Text>
