@@ -16,6 +16,7 @@ import RootNavigation from './src/navigation';
 import { useEffect } from 'react';
 import SplashScreen from 'react-native-splash-screen';
 import i18n from './i18next';
+import { LanguageProvider } from './src/context/LanguageContext';
 
 function App() {
   const isDarkMode = useColorScheme() === 'dark';
@@ -27,10 +28,12 @@ function App() {
   }, []);
 
   return (
-    <SafeAreaProvider>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <AppContent />
-    </SafeAreaProvider>
+    <LanguageProvider>
+      <SafeAreaProvider>
+        <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
+        <AppContent />
+      </SafeAreaProvider>
+    </LanguageProvider>
   );
 }
 

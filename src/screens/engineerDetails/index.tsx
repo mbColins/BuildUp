@@ -1,9 +1,9 @@
-import { Image, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Image, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View, Alert } from 'react-native'
 import React from 'react'
 import CustomeHeader from '../../components/CustomeHeader'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import { Colors } from '../../utils/styles';
-import { ArrowRight, CircleArrowRight, MapPin,Star } from 'lucide-react-native';
+import { Colors, FontSize } from '../../utils/styles';
+import { ArrowRight, CircleArrowRight, MapPin, Star, MessageCircle } from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
 import { useNavigation } from '@react-navigation/native';
 import { NavigationProp, Routes } from '../../utils/tools';
@@ -77,11 +77,11 @@ const Skils: skilProps[] = [
 const Projects: portofolioProps[] = [
   {
     id: 1,
-    description: 'Rsidential building project: Managed 1M xaf and delivered the project on time'
+    description: 'Residential building project: Managed 1M XAF and delivered the project on time'
   },
   {
     id: 2,
-    description: 'Industrial facility insfratstructure: Designed and supervised construction'
+    description: 'Industrial facility infrastructure: Designed and supervised construction'
   },
 ]
 
@@ -109,119 +109,175 @@ const Ratings: ratingProps[] = [
 const Certifications: certificationProps[] = [
   {
     id: 1,
-    certificate: " Bachelo in civil engineering, University of Douala(2015)"
+    certificate: "Bachelor in civil engineering, University of Douala (2015)"
   },
   {
     id: 2,
-    certificate: " Professional engineer(PE) liscense cameroon (2018)"
+    certificate: "Professional Engineer (PE) license cameroon (2018)"
   },
 ]
 
 
+// Reusable Section Card Component
+const SectionCard = ({ children }: { children: React.ReactNode }) => (
+  <View style={styles.sectionCard}>
+    {children}
+  </View>
+);
+
+// Reusable List Item Component
+const ListItem = ({ text }: { text: string }) => (
+  <View style={styles.listItem}>
+    <CircleArrowRight size={15} color={Colors.success} />
+    <Text style={styles.listItemText}>{text}</Text>
+  </View>
+);
+
+// Reusable Section Title Component
+const SectionTitle = ({ title }: { title: string }) => (
+  <Text style={styles.sectionTitle}>{title}</Text>
+);
+
 const EngineerDetails = () => {
 
   const { t } = useTranslation();
-  const navigation = useNavigation<NavigationProp>()
+  const navigation = useNavigation<NavigationProp>();
+
+  const handleContact = () => {
+    Alert.alert('Contact Engineer', 'Choose communication method:', [
+      { text: 'Cancel', onPress: () => {}, style: 'cancel' },
+      { text: 'Call', onPress: () => Alert.alert('Call', '657 15 93 01') },
+      { text: 'Message', onPress: () => navigation.navigate(Routes.MESSAGEDETAILS) },
+    ]);
+  };
 
   return (
     <SafeAreaView style={styles.container}>
-      <CustomeHeader text='Engineer profile' />
-      <View style={styles.engContainer}>
+      <CustomeHeader text='Engineer Profile' />
+      
+      {/* Profile Header */}
+      <View style={styles.profileHeader}>
         <Image
           source={require('../../assets/images/structure.jpg')}
-          style={styles.engProfileImg}
-          resizeMode='stretch'
+          style={styles.profileImage}
+          resizeMode='cover'
         />
-        <View style={{ padding: 4, flexDirection: 'row', gap: 10 }}>
-          <Text style={{ fontSize: 16, fontWeight: '500' }}>John doe,</Text>
-          <Text style={{ fontSize: 15, fontWeight: '500', fontStyle: 'italic', color: Colors.textSecondary }}>doe@gmail.com,</Text>
-          <Text style={{ fontSize: 15, fontWeight: '500', fontStyle: 'italic', color: Colors.success }}>civil engineer</Text>
+        <View style={styles.profileInfo}>
+          <Text style={styles.profileName}>John Doe</Text>
+          <Text style={styles.profileRole}>Civil Engineer</Text>
+          <Text style={styles.profileEmail}>doe@gmail.com</Text>
+          <View style={styles.ratingBadge}>
+            <Star size={14} color={Colors.star} fill={Colors.star} />
+            <Text style={styles.ratingText}>4.5 (12 reviews)</Text>
+          </View>
         </View>
       </View>
-      <ScrollView style={styles.engDetails}>
-        <Text style={{ marginTop: 10, fontSize: 20 }}>Bio/Summary</Text>
-        <View style={styles.educationCard}>
-          <Text style={{ padding: 5, fontSize: 14 }}>Expericed civil engineery with 5+ years of experience in construction project management, specializing in residential and industrial iprojects in cameroon</Text>
-        </View>
 
-        <Text style={{ marginTop: 10, fontSize: 20 }}>Work experience</Text>
-        <View style={styles.educationCard}>
-          {
-            WorkExperience.map((item) => (
-              <Text style={{ padding: 5, fontSize: 14, width: wp('90%') }}><CircleArrowRight size={15} /> {item.experience}</Text>
-            ))
-          }
-        </View>
-        <Text style={{ marginTop: 10, fontSize: 20 }}>Skills</Text>
-        <View style={styles.educationCard}>
-          {
-            Skils.map((item) => (
-              <Text style={{ padding: 5, fontSize: 14, width: wp('90%') }}><CircleArrowRight size={15} /> {item.skill} </Text>
-            ))
-          }
-        </View>
+      {/* Contact Button */}
+      <TouchableOpacity style={styles.contactButton} onPress={handleContact}>
+        <MessageCircle size={20} color='white' />
+        <Text style={styles.contactButtonText}>Contact Now</Text>
+      </TouchableOpacity>
 
-        <Text style={{ marginTop: 10, fontSize: 20 }}>Portofolio/Projects</Text>
-        <View style={styles.educationCard}>
-          {
-            Projects.map((item) => (
-              <Text style={{ padding: 5, fontSize: 14, width: wp('90%') }}><CircleArrowRight size={15} /> {item.description} </Text>
-            ))
-          }
-          <View>
-            <TouchableOpacity
-            onPress = {() => navigation.navigate(Routes.PORTOFOLIO)}
-            style={{ display: 'flex', flexDirection: 'row', gap: 10, justifyContent: 'center', marginTop: 10, padding: 4 }}>
-              <Text style={{ color: Colors.success, fontStyle: 'italic' }}>visit my portofolio for more details</Text>
-              <ArrowRight color={Colors.success} size={20} />
-            </TouchableOpacity>
-          </View>
-        </View>
-        <Text style={{ marginTop: 10, fontSize: 20 }}>Ratings & Review</Text>
-        <View style={styles.educationCard}>
-          <Text>Reviews ({Ratings.length})</Text>
-          {
-            Ratings.map((item) => (
-              <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', borderWidth: 0.3, borderRadius: 10, padding: 4, borderColor: Colors.textSecondary, margin: 4, width: wp('90%') }}>
-                <View>
-                  <Text style={{ width: wp('75%') }}>{item.rate}</Text>
-                  <Text style={{ fontWeight: '500', marginTop: 4 }}>{item.client}</Text>
-                </View>
-                <Text><Star size={14} color={Colors.star} /> ({item.star}) </Text>
+      <ScrollView style={styles.scrollContent} showsVerticalScrollIndicator={false}>
+        {/* Bio Section */}
+        <SectionTitle title='About' />
+        <SectionCard>
+          <Text style={styles.bioText}>
+            Experienced civil engineer with 5+ years of experience in construction project management, specializing in residential and industrial projects in Cameroon.
+          </Text>
+        </SectionCard>
+
+        {/* Work Experience Section */}
+        <SectionTitle title='Work Experience' />
+        <SectionCard>
+          {WorkExperience.map((item) => (
+            <ListItem key={item.id} text={item.experience} />
+          ))}
+        </SectionCard>
+
+        {/* Skills Section */}
+        <SectionTitle title='Skills' />
+        <SectionCard>
+          <View style={styles.skillsGrid}>
+            {Skils.map((item) => (
+              <View key={item.id} style={styles.skillTag}>
+                <Text style={styles.skillText}>{item.skill}</Text>
               </View>
-            )).slice(0, 4)
-          }
-          <TouchableOpacity onPress={() => navigation.navigate(Routes.REVIEWS)}  style={{ display: 'flex', flexDirection: 'row', gap: '10', justifyContent: 'center', marginTop: 5 }}>
-            <Text style={{ color: Colors.success }}>see what users say about john doe</Text>
-            <ArrowRight size={20} color={Colors.success} />
+            ))}
+          </View>
+        </SectionCard>
+
+        {/* Portfolio Section */}
+        <SectionTitle title='Portfolio & Projects' />
+        <SectionCard>
+          {Projects.map((item) => (
+            <ListItem key={item.id} text={item.description} />
+          ))}
+          <TouchableOpacity
+            onPress={() => navigation.navigate(Routes.PORTOFOLIO)}
+            style={styles.viewMoreLink}>
+            <Text style={styles.viewMoreText}>View Full Portfolio</Text>
+            <ArrowRight color={Colors.success} size={18} />
           </TouchableOpacity>
-        </View>
-        <Text style={{ marginTop: 10, fontSize: 20 }}>Education & Certification</Text>
-        <View style={styles.educationCard}>
-          {
-            Certifications.map((item) => (
-              <Text style={{ padding: 5, fontSize: 14, width: wp('90%') }}><CircleArrowRight size={15} /> {item.certificate} </Text>
-            ))
-          }
-        </View>
-        <Text style={{ marginTop: 10, fontSize: 20 }}>Pricing</Text>
-        <View style={styles.educationCard}>
-          <Text style={{ padding: 5, fontSize: 14, width: wp('90%') }}><CircleArrowRight size={15} /> Pricing  is fixed based on the project and the town where where the poject have to be realised</Text>
-        </View>
-        <Text style={{ marginTop: 10, fontSize: 20 }}>Location & Availability</Text>
-        <View style={styles.educationCard}>
-          <View style={{ display: 'flex', flexDirection: 'row', width: wp('90%'), justifyContent: 'space-between' }}>
-            <View style={{ width: wp('70%') }}>
-              <Text style={{ padding: 5, fontSize: 14, width: wp('70%') }}><CircleArrowRight size={15} /> Douala, Cameroon, Akwa-nord</Text>
-              <Text style={{ padding: 5, fontSize: 14, width: wp('70%') }}><CircleArrowRight size={15} /> Tel: 657 15 93 01</Text>
-              <Text style={{ padding: 5, fontSize: 14, width: wp('70%') }}><CircleArrowRight size={15} /> Open from Monday - Friday, 8AM - 5PM</Text>
+        </SectionCard>
+
+        {/* Ratings Section */}
+        <SectionTitle title={`Ratings & Reviews (${Ratings.length})`} />
+        <SectionCard>
+          {Ratings.slice(0, 3).map((item) => (
+            <View key={item.id} style={styles.reviewCard}>
+              <View style={styles.reviewContent}>
+                <Text style={styles.reviewText}>{item.rate}</Text>
+                <Text style={styles.clientName}>{item.client}</Text>
+              </View>
+              <View style={styles.reviewRating}>
+                <Star size={14} color={Colors.star} fill={Colors.star} />
+                <Text style={styles.starCount}>{item.star}</Text>
+              </View>
             </View>
-            <Pressable>
-              <MapPin color={Colors.success} />
+          ))}
+          <TouchableOpacity 
+            onPress={() => navigation.navigate(Routes.REVIEWS)}
+            style={styles.viewMoreLink}>
+            <Text style={styles.viewMoreText}>See All Reviews</Text>
+            <ArrowRight color={Colors.success} size={18} />
+          </TouchableOpacity>
+        </SectionCard>
+
+        {/* Certifications Section */}
+        <SectionTitle title='Education & Certifications' />
+        <SectionCard>
+          {Certifications.map((item) => (
+            <ListItem key={item.id} text={item.certificate} />
+          ))}
+        </SectionCard>
+
+        {/* Pricing Section */}
+        <SectionTitle title='Pricing' />
+        <SectionCard>
+          <Text style={styles.pricingText}>
+            Pricing is fixed based on the project scope and the location where the project will be realized.
+          </Text>
+        </SectionCard>
+
+        {/* Location & Availability */}
+        <SectionTitle title='Location & Availability' />
+        <SectionCard>
+          <View style={styles.locationContent}>
+            <View style={styles.locationDetails}>
+              <ListItem text='Douala, Cameroon, Akwa-Nord' />
+              <ListItem text='Tel: 657 15 93 01' />
+              <ListItem text='Monday - Friday, 8AM - 5PM' />
+            </View>
+            <Pressable style={styles.mapButton}>
+              <MapPin color={Colors.success} size={28} />
             </Pressable>
           </View>
-          <Text style={{ textAlign: 'center', color: Colors.success }}>Available for all your construction works</Text>
-        </View>
+          <Text style={styles.availabilityText}>Available for all your construction works</Text>
+        </SectionCard>
+
+        <View style={{ height: hp('3%') }} />
       </ScrollView>
     </SafeAreaView>
   )
@@ -230,23 +286,238 @@ const EngineerDetails = () => {
 export default EngineerDetails
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#fff' },
-  engContainer: { display: 'flex', flexDirection: 'column', borderBottomWidth: 0.3, borderColor: Colors.textSecondary, alignItems: 'center', backgroundColor: "#f8fcf8" },
-  engProfileImg: { height: hp('15'), width: wp('40'), borderRadius: 15, marginTop: 8 },
-  engDetails: { paddingHorizontal: wp('2%') },
-  educationCard: {
-    backgroundColor: '#fff',
-    borderRadius: 10,
-    overflow: 'hidden',
-    marginVertical: hp('1%'),
-    elevation: 3,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 3,
-    width: wp('95%'),
-    flexDirection: 'column',
-    alignContent: 'center',
-    padding: 5
+  container: {
+    flex: 1,
+    backgroundColor: '#fafafa',
   },
-})
+  
+  // Profile Header Styles
+  profileHeader: {
+    backgroundColor: '#fff',
+    paddingHorizontal: wp('4%'),
+    paddingVertical: hp('2%'),
+    borderBottomWidth: 1,
+    borderBottomColor: '#e0e0e0',
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: wp('4%'),
+  },
+  profileImage: {
+    width: wp('25%'),
+    height: wp('25%'),
+    borderRadius: 12,
+  },
+  profileInfo: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+  profileName: {
+    fontSize: 18,
+    fontWeight: '700',
+    color: '#000',
+    marginBottom: hp('0.5%'),
+  },
+  profileRole: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: Colors.success,
+    marginBottom: hp('0.3%'),
+  },
+  profileEmail: {
+    fontSize: 12,
+    color: Colors.textSecondary,
+    marginBottom: hp('1%'),
+  },
+  ratingBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+    backgroundColor: '#fff9e6',
+    paddingHorizontal: wp('2%'),
+    paddingVertical: hp('0.5%'),
+    borderRadius: 12,
+    width: 'auto',
+  },
+  ratingText: {
+    fontSize: 12,
+    fontWeight: '600',
+    color: Colors.star,
+  },
+
+  // Contact Button
+  contactButton: {
+    marginHorizontal: wp('4%'),
+    marginVertical: hp('2%'),
+    backgroundColor: Colors.success,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+    paddingVertical: hp('1.5%'),
+    borderRadius: 25,
+    elevation: 3,
+    shadowColor: Colors.success,
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+  },
+  contactButtonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: '700',
+  },
+
+  // Scroll Content
+  scrollContent: {
+    paddingHorizontal: wp('4%'),
+    paddingVertical: hp('1%'),
+  },
+
+  // Section Styles
+  sectionTitle: {
+    fontSize: 16,
+    fontWeight: '700',
+    color: '#000',
+    marginTop: hp('2%'),
+    marginBottom: hp('1%'),
+  },
+  sectionCard: {
+    backgroundColor: '#fff',
+    borderRadius: 12,
+    padding: wp('3%'),
+    marginBottom: hp('1.5%'),
+    elevation: 2,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.08,
+    shadowRadius: 2,
+  },
+
+  // List Item Styles
+  listItem: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    gap: wp('2.5%'),
+    marginVertical: hp('0.8%'),
+    paddingRight: wp('2%'),
+  },
+  listItemText: {
+    flex: 1,
+    fontSize: 13,
+    color: '#333',
+    lineHeight: 20,
+  },
+
+  // Bio Text
+  bioText: {
+    fontSize: 14,
+    color: '#444',
+    lineHeight: 22,
+    textAlign: 'justify',
+  },
+
+  // Skills Grid
+  skillsGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: wp('2%'),
+  },
+  skillTag: {
+    backgroundColor: '#e8f5e9',
+    paddingHorizontal: wp('4%'),
+    paddingVertical: hp('1%'),
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: Colors.success,
+  },
+  skillText: {
+    fontSize: 12,
+    fontWeight: '600',
+    color: Colors.success,
+  },
+
+  // View More Links
+  viewMoreLink: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+    paddingVertical: hp('1.5%'),
+    marginTop: hp('1%'),
+  },
+  viewMoreText: {
+    color: Colors.success,
+    fontWeight: '600',
+    fontSize: 13,
+  },
+
+  // Review Card
+  reviewCard: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+    borderWidth: 0.5,
+    borderColor: '#e0e0e0',
+    borderRadius: 10,
+    padding: wp('3%'),
+    marginVertical: hp('0.8%'),
+    backgroundColor: '#fafafa',
+  },
+  reviewContent: {
+    flex: 1,
+    marginRight: wp('2%'),
+  },
+  reviewText: {
+    fontSize: 13,
+    color: '#444',
+    lineHeight: 19,
+    marginBottom: hp('0.5%'),
+  },
+  clientName: {
+    fontSize: 12,
+    fontWeight: '600',
+    color: '#000',
+  },
+  reviewRating: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+  },
+  starCount: {
+    fontSize: 12,
+    fontWeight: '600',
+    color: Colors.star,
+  },
+
+  // Pricing Text
+  pricingText: {
+    fontSize: 13,
+    color: '#444',
+    lineHeight: 20,
+    textAlign: 'justify',
+  },
+
+  // Location Content
+  locationContent: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+  },
+  locationDetails: {
+    flex: 1,
+  },
+  mapButton: {
+    padding: wp('2%'),
+    marginLeft: wp('2%'),
+  },
+  availabilityText: {
+    textAlign: 'center',
+    color: Colors.success,
+    fontWeight: '600',
+    fontSize: 13,
+    marginTop: hp('1.5%'),
+    paddingTop: hp('1%'),
+    borderTopWidth: 1,
+    borderTopColor: '#e0e0e0',
+  },
+});
