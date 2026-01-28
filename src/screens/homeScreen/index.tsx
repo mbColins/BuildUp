@@ -2,10 +2,11 @@ import { FlatList, Image, ImageSourcePropType, StyleSheet, Text, TouchableOpacit
 import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { NavigationProp, Routes, width } from '../../utils/tools'
-import { Colors, FontSize } from '../../utils/styles'
-import { Bell, Search, Settings, User } from 'lucide-react-native'
+import { Colors, FontSize, FontWeight, Spacing, Radius } from '../../utils/styles'
+import { Bell, Search, Settings, User, ChevronRight, Star, MapPin } from 'lucide-react-native'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { useNavigation } from '@react-navigation/native'
+import LinearGradient from 'react-native-linear-gradient'
 
 
 type Itemprops = {
@@ -174,7 +175,7 @@ const advertisementData: adevertisementProps[] = [
 ]
 
 const Item = ({ title, img, onPress }: Itemprops) => (
-  <TouchableOpacity style={styles.itemContainer} onPress={onPress}>
+  <TouchableOpacity style={styles.itemContainer} onPress={onPress} activeOpacity={0.7}>
     <View style={styles.imageWrapper}>
       <Image
         source={img}
@@ -182,23 +183,26 @@ const Item = ({ title, img, onPress }: Itemprops) => (
         resizeMode="contain"
       />
     </View>
-    <Text style={{ textAlign: 'center', fontSize: 10 }}>{title}</Text>
+    <Text style={styles.itemTitle}>{title}</Text>
   </TouchableOpacity>
 )
 
 const RenderTopRatedEngineer = ({ item, onPress }:topRatedEng ) => (
   <Pressable style={styles.engineerCard} onPress={onPress}>
-    <Image source={item.img} style={styles.engineerImage} resizeMode="cover" />
+    <View style={styles.engineerImageContainer}>
+      <Image source={item.img} style={styles.engineerImage} resizeMode="cover" />
+      <View style={styles.ratingBadge}>
+        <Star size={14} color="#fff" fill="#fff" />
+        <Text style={styles.ratingBadgeText}>{item.rating.toFixed(1)}</Text>
+      </View>
+    </View>
     <View style={styles.engineerInfo}>
       <Text style={styles.engineerName}>{item.name}</Text>
       <Text style={styles.engineerSpeciality}>{item.speciality}</Text>
-      <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-        <Text style={styles.ratingText}>⭐ {item.rating.toFixed(1)}</Text>
-        <Text style={styles.priceText}>From ${item.startingPrice}</Text>
-      </View>
+      <Text style={styles.priceText}>From ${item.startingPrice}/hr</Text>
     </View>
     <TouchableOpacity style={styles.hireButton} onPress={() => Alert.alert('Hire', `Hire ${item.name} from $${item.startingPrice}?`, [{ text: 'Cancel' }, { text: 'Confirm', onPress: () => { /* TODO: implement hiring */ } }])}>
-      <Text style={styles.hireButtonText}>Hire Me</Text>
+      <ChevronRight size={20} color="#fff" />
     </TouchableOpacity>
   </Pressable>
 )
@@ -207,25 +211,40 @@ const RenderRecentProjects = ({ item, onPress }: recentProjects ) => (
   <Pressable style={styles.projectCard} onPress={onPress}>
     <View style={styles.projectImages}>
       <ImageBackground source={item.beforeImg} style={styles.projectImage} resizeMode="cover" >
-        <Text style={{ color: Colors.success, fontWeight: 'bold' }}>before</Text>
+        <View style={styles.projectLabel}>
+          <Text style={styles.projectLabelText}>before</Text>
+        </View>
       </ImageBackground>
       <ImageBackground source={item.afterImg} style={styles.projectImage} resizeMode="cover" >
-        <Text style={{ color: Colors.success, fontWeight: 'bold' }}>after</Text>
+        <View style={styles.projectLabel}>
+          <Text style={styles.projectLabelText}>after</Text>
+        </View>
       </ImageBackground>
     </View>
-    <View style={{ display: 'flex', flexDirection: 'row', marginTop: 8, gap: 10 }}>
-      <Text >{item.title}</Text>
-      <Text >{item.location}</Text>
+    <View style={styles.projectInfo}>
+      <Text style={styles.projectTitle}>{item.title}</Text>
+      <View style={styles.projectLocation}>
+        <MapPin size={14} color={Colors.textSecondary} />
+        <Text style={styles.projectLocationText}>{item.location}</Text>
+      </View>
     </View>
   </Pressable>
 )
 
 const advertisements = ({ item }: { item: adevertisementProps }) => (
-  //  <View style={{borderColor: '#ccc', borderRadius: 10, overflow: 'hidden' }}>
   <ImageBackground source={item.img} style={styles.advertisementImage} resizeMode="cover" >
-    <Text style={{ color: '#fff', fontWeight: 'bold' }}>{item.discountText}</Text>
+    <LinearGradient
+      colors={['rgba(0, 0, 0, 0.3)', 'rgba(0, 0, 0, 0.5)']}
+      start={{ x: 0, y: 0 }}
+      end={{ x: 1, y: 1 }}
+      style={styles.advertisementGradient}
+    >
+      <Text style={styles.advertisementText}>{item.discountText}</Text>
+      <TouchableOpacity style={styles.advertisementButton}>
+        <Text style={styles.advertisementButtonText}>Shop Now</Text>
+      </TouchableOpacity>
+    </LinearGradient>
   </ImageBackground>
-  //  </View>
 )
 
 const HomeScreen = () => {
@@ -233,34 +252,40 @@ const HomeScreen = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-        <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', borderBottomWidth: 0.5, borderColor: Colors.textSecondary }}>
-          <View style={{ display: 'flex', flexDirection: 'row', gap: 5, paddingVertical: 4 }}>
-            <TouchableOpacity>
-              <User size={38} />
-            </TouchableOpacity>
+        {/* Header */}
+        <View style={styles.headerContainer}>
+          <View style={styles.userGreeting}>
+            <View style={styles.avatarContainer}>
+              <User size={28} color="#fff" />
+            </View>
             <View>
-              <Text style={{ fontWeight: 'bold' }}>Hi Joe</Text>
-              <Text style={{ color: Colors.success }}>joe@gmail.com</Text>
+              <Text style={styles.greetingText}>Hi Joe</Text>
+              <Text style={styles.emailText}>joe@gmail.com</Text>
             </View>
           </View>
-          <View style={{ display: 'flex', flexDirection: 'row', gap: 10, marginTop: 15, alignItems: 'center' }}>
-            <TouchableOpacity onPress={() => navigation.navigate(Routes.SERVICES)}>
-              <Search />
+          <View style={styles.headerIcons}>
+            <TouchableOpacity onPress={() => navigation.navigate(Routes.SERVICES)} style={styles.iconButton}>
+              <Search size={20} color={Colors.primary} />
             </TouchableOpacity>
-            <TouchableOpacity>
-              <Bell />
+            <TouchableOpacity style={styles.iconButton}>
+              <Bell size={20} color={Colors.primary} />
             </TouchableOpacity>
-            <TouchableOpacity>
-              <Settings />
+            <TouchableOpacity style={styles.iconButton}>
+              <Settings size={20} color={Colors.primary} />
             </TouchableOpacity>
           </View>
         </View>
-      <ScrollView>
-        <View style={{ backgroundColor: "#fff", marginTop: 10 }}>
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 5 }}>
-            <Text style={{ marginTop: 15 }}>services (engineering)</Text>
-            <TouchableOpacity onPress={() => navigation.navigate(Routes.SERVICES)} >
-              <Text style={{ marginTop: 15, color: Colors.success }}>more</Text>
+
+      <ScrollView showsVerticalScrollIndicator={false}>
+        {/* Services Section */}
+        <View style={styles.section}>
+          <View style={styles.sectionHeader}>
+            <Text style={styles.sectionTitle}>Services</Text>
+            <TouchableOpacity onPress={() => navigation.navigate(Routes.SERVICES)}>
+              <View style={styles.seeMoreButton}>
+                <Text style={styles.seeMoreText}>View All</Text>
+                <ChevronRight size={16} color={Colors.success} />
+              </View>
             </TouchableOpacity>
           </View>
           <FlatList
@@ -271,32 +296,42 @@ const HomeScreen = () => {
             showsVerticalScrollIndicator={false}
             columnWrapperStyle={{ justifyContent: 'space-between' }}
             contentContainerStyle={{ paddingHorizontal: 2 }}
-            style={{ borderWidth: 0.2, borderRadius: 10, marginTop: 10, borderColor: 'gray' }}
+            style={styles.servicesList}
+            scrollEnabled={false}
           />
         </View>
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 5 }}>
-          <Text style={{ marginTop: 15 }}>features & top rated engineers</Text>
-          <TouchableOpacity onPress={() => navigation.navigate(Routes.ENGINEERS)}>
-            <Text style={{ marginTop: 15, color: Colors.success }}>more</Text>
-          </TouchableOpacity>
-        </View>
-        <View>
+
+        {/* Top Rated Engineers Section */}
+        <View style={styles.section}>
+          <View style={styles.sectionHeader}>
+            <Text style={styles.sectionTitle}>Featured Engineers</Text>
+            <TouchableOpacity onPress={() => navigation.navigate(Routes.ENGINEERS)}>
+              <View style={styles.seeMoreButton}>
+                <Text style={styles.seeMoreText}>View All</Text>
+                <ChevronRight size={16} color={Colors.success} />
+              </View>
+            </TouchableOpacity>
+          </View>
           <FlatList
             data={topRatedEngineers}
             renderItem={({item}) => <RenderTopRatedEngineer item={item} onPress={() => navigation.navigate(Routes.PROFILE_DETAILS)}/>}
             keyExtractor={(item) => item.id.toString()}
             horizontal
             showsHorizontalScrollIndicator={false}
-            contentContainerStyle={{ paddingHorizontal: 2, paddingVertical: 10 }}
-            ItemSeparatorComponent={() => <View style={{ width: 10 }} />}
+            contentContainerStyle={{ paddingHorizontal: Spacing.md }}
+            ItemSeparatorComponent={() => <View style={{ width: Spacing.md }} />}
           />
         </View>
 
-        <View>
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 5 }}>
-            <Text style={{ marginTop: 15 }}>recent projects</Text>
+        {/* Recent Projects Section */}
+        <View style={styles.section}>
+          <View style={styles.sectionHeader}>
+            <Text style={styles.sectionTitle}>Recent Projects</Text>
             <TouchableOpacity onPress={() => navigation.navigate(Routes.PROJECTS)}>
-              <Text style={{ marginTop: 15, color: Colors.success }}>more</Text>
+              <View style={styles.seeMoreButton}>
+                <Text style={styles.seeMoreText}>View All</Text>
+                <ChevronRight size={16} color={Colors.success} />
+              </View>
             </TouchableOpacity>
           </View>
           <FlatList
@@ -305,15 +340,20 @@ const HomeScreen = () => {
             keyExtractor={(item) => item.id.toString()}
             horizontal
             showsHorizontalScrollIndicator={false}
-            contentContainerStyle={{ paddingHorizontal: 6, paddingVertical: 10 }}
-            ItemSeparatorComponent={() => <View style={{ width: 10 }} />}
+            contentContainerStyle={{ paddingHorizontal: Spacing.md }}
+            ItemSeparatorComponent={() => <View style={{ width: Spacing.md }} />}
           />
         </View>
-        <View>
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 5 }}>
-            <Text style={{ marginTop: 15 }}>advertisement & discount</Text>
+
+        {/* Advertisement Section */}
+        <View style={styles.section}>
+          <View style={styles.sectionHeader}>
+            <Text style={styles.sectionTitle}>Special Offers</Text>
             <TouchableOpacity>
-              <Text style={{ marginTop: 15, color: Colors.success }}>more</Text>
+              <View style={styles.seeMoreButton}>
+                <Text style={styles.seeMoreText}>View All</Text>
+                <ChevronRight size={16} color={Colors.success} />
+              </View>
             </TouchableOpacity>
           </View>
           <FlatList
@@ -322,10 +362,12 @@ const HomeScreen = () => {
             keyExtractor={(item) => item.id.toString()}
             horizontal
             showsHorizontalScrollIndicator={false}
-            contentContainerStyle={{ paddingHorizontal: 6, paddingVertical: 10 }}
-            ItemSeparatorComponent={() => <View style={{ width: 10 }} />}
+            contentContainerStyle={{ paddingHorizontal: Spacing.md }}
+            ItemSeparatorComponent={() => <View style={{ width: Spacing.md }} />}
           />
         </View>
+
+        <View style={{ height: Spacing.xl }} />
       </ScrollView>
     </SafeAreaView>
   )
@@ -334,34 +376,272 @@ const HomeScreen = () => {
 export default HomeScreen
 
 const styles = StyleSheet.create({
-  container: { flex: 1, alignContent: 'center', paddingHorizontal: 8, backgroundColor: '#fff', width: wp('100%'), height: hp('100%') },
-  image: { height: 62, width: 62 },
-  itemContainer: { height: hp('12%'), flex: 1, alignItems: 'center', marginHorizontal: 0, marginTop: 6, width: wp('80%') },
+  container: {
+    flex: 1,
+    backgroundColor: Colors.background,
+    width: wp('100%'),
+    height: hp('100%'),
+  },
+  headerContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: Spacing.lg,
+    paddingVertical: Spacing.md,
+    borderBottomWidth: 1,
+    borderBottomColor: Colors.border,
+  },
+  userGreeting: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: Spacing.md,
+  },
+  avatarContainer: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    backgroundColor: Colors.success,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  greetingText: {
+    fontWeight: FontWeight.bold,
+    fontSize: FontSize.lg,
+    color: Colors.textPrimary,
+  },
+  emailText: {
+    color: Colors.success,
+    fontSize: FontSize.sm,
+    marginTop: 2,
+  },
+  headerIcons: {
+    flexDirection: 'row',
+    gap: Spacing.md,
+  },
+  iconButton: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: Colors.border,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  section: {
+    paddingVertical: Spacing.lg,
+    paddingHorizontal: Spacing.lg,
+  },
+  sectionHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: Spacing.md,
+  },
+  sectionTitle: {
+    fontSize: FontSize.lg,
+    fontWeight: FontWeight.bold,
+    color: Colors.textPrimary,
+  },
+  seeMoreButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: Spacing.sm,
+  },
+  seeMoreText: {
+    color: Colors.success,
+    fontWeight: FontWeight.semibold,
+    fontSize: FontSize.sm,
+  },
+  image: {
+    height: 62,
+    width: 62,
+  },
+  itemContainer: {
+    height: hp('12%'),
+    flex: 1,
+    alignItems: 'center',
+    marginTop: Spacing.md,
+  },
+  itemTitle: {
+    textAlign: 'center',
+    fontSize: FontSize.xs,
+    color: Colors.textPrimary,
+    marginTop: Spacing.sm,
+    fontWeight: FontWeight.medium,
+  },
   imageWrapper: {
     height: 62,
     width: 62,
-    borderRadius: 14,
+    borderRadius: Radius.lg,
     overflow: 'hidden',
-    backgroundColor: '#fff',
-    borderWidth: 0.2,
-    borderColor: '#606060',
-    marginTop: 5,
+    backgroundColor: Colors.border,
+    borderWidth: 1,
+    borderColor: Colors.border,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  engineerCard: { flexDirection: 'row', alignItems: 'center', backgroundColor: '#fff', borderRadius: 8, padding: 8, borderWidth: 0.2, borderColor: '#ccc', marginVertical: 6, minWidth: width * 0.85 },
-  engineerImage: { width: 64, height: 64, borderRadius: 8, marginRight: 10 },
-  engineerInfo: { flex: 1 },
-  engineerName: { fontWeight: 'bold' },
-  engineerSpeciality: { color: Colors.textSecondary, marginTop: 2, marginBottom: 4 },
-  ratingText: { color: Colors.success },
-  priceText: { fontWeight: '600' },
-  headerButton: { backgroundColor: Colors.success, paddingHorizontal: 10, paddingVertical: 6, borderRadius: 20, marginLeft: 6 },
-  headerButtonText: { color: '#fff', fontWeight: '600' },
-  hireButton: { backgroundColor: Colors.success, paddingHorizontal: 12, borderRadius: 6, marginLeft: 8, position: 'absolute', top: 8, right: 8 },
-  hireButtonText: { color: '#fff', fontWeight: '700', fontSize: FontSize.sm },
-  projectCard: { width: width * 0.85, borderRadius: 8, overflow: 'hidden', backgroundColor: '#fff', borderWidth: 0.2, borderColor: '#ccc', padding: 8 },
-  projectImages: { flexDirection: 'row', justifyContent: 'space-between' },
-  projectImage: { width: (width * 0.85 - 24) / 2, height: 100, borderRadius: 6, backgroundColor: '#eee', justifyContent: 'center', alignItems: 'center', overflow: 'hidden' },
-  projectTitle: { marginTop: 8, fontWeight: '600' },
-  advertisementImage: { width: width * 0.9, height: 100, marginTop: 10, justifyContent: 'center', alignItems: 'center', borderRadius: 10, overflow: 'hidden' }
-}
-)
+  servicesList: {
+    borderWidth: 1,
+    borderRadius: Radius.lg,
+    borderColor: Colors.border,
+    paddingVertical: Spacing.md,
+  },
+  engineerCard: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: Colors.background,
+    borderRadius: Radius.lg,
+    padding: Spacing.md,
+    borderWidth: 1,
+    borderColor: Colors.border,
+    minWidth: width * 0.85,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
+    elevation: 3,
+  },
+  engineerImageContainer: {
+    position: 'relative',
+    marginRight: Spacing.md,
+  },
+  engineerImage: {
+    width: 64,
+    height: 64,
+    borderRadius: Radius.md,
+  },
+  ratingBadge: {
+    position: 'absolute',
+    bottom: -5,
+    right: -5,
+    backgroundColor: Colors.success,
+    borderRadius: 20,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+    gap: 4,
+  },
+  ratingBadgeText: {
+    color: '#fff',
+    fontWeight: FontWeight.bold,
+    fontSize: FontSize.xs,
+  },
+  engineerInfo: {
+    flex: 1,
+  },
+  engineerName: {
+    fontWeight: FontWeight.bold,
+    fontSize: FontSize.md,
+    color: Colors.textPrimary,
+  },
+  engineerSpeciality: {
+    color: Colors.textSecondary,
+    marginTop: Spacing.xs,
+    marginBottom: Spacing.sm,
+    fontSize: FontSize.sm,
+  },
+  priceText: {
+    fontWeight: FontWeight.semibold,
+    fontSize: FontSize.sm,
+    color: Colors.primary,
+  },
+  hireButton: {
+    backgroundColor: Colors.success,
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginLeft: Spacing.md,
+  },
+  projectCard: {
+    width: width * 0.85,
+    borderRadius: Radius.lg,
+    overflow: 'hidden',
+    backgroundColor: Colors.background,
+    borderWidth: 1,
+    borderColor: Colors.border,
+    paddingBottom: Spacing.md,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
+    elevation: 3,
+  },
+  projectImages: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingBottom: 0,
+  },
+  projectImage: {
+    width: (width * 0.85 - 24) / 2,
+    height: 120,
+    borderRadius: Radius.md,
+    backgroundColor: Colors.border,
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
+    overflow: 'hidden',
+    padding: Spacing.md,
+  },
+  projectLabel: {
+    backgroundColor: Colors.success,
+    paddingHorizontal: Spacing.sm,
+    paddingVertical: 4,
+    borderRadius: Radius.sm,
+  },
+  projectLabelText: {
+    color: '#fff',
+    fontWeight: FontWeight.bold,
+    fontSize: FontSize.xs,
+  },
+  projectInfo: {
+    paddingHorizontal: Spacing.md,
+    paddingVertical: Spacing.md,
+  },
+  projectTitle: {
+    fontWeight: FontWeight.semibold,
+    fontSize: FontSize.md,
+    color: Colors.textPrimary,
+    marginBottom: Spacing.sm,
+  },
+  projectLocation: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: Spacing.sm,
+  },
+  projectLocationText: {
+    fontSize: FontSize.sm,
+    color: Colors.textSecondary,
+  },
+  advertisementImage: {
+    width: width * 0.9,
+    height: 120,
+    borderRadius: Radius.lg,
+    overflow: 'hidden',
+    backgroundColor: Colors.primary,
+  },
+  advertisementGradient: {
+    flex: 1,
+    justifyContent: 'space-between',
+    paddingHorizontal: Spacing.lg,
+    paddingVertical: Spacing.md,
+  },
+  advertisementText: {
+    color: '#fff',
+    fontWeight: FontWeight.bold,
+    fontSize: FontSize.lg,
+  },
+  advertisementButton: {
+    backgroundColor: Colors.success,
+    paddingHorizontal: Spacing.md,
+    paddingVertical: Spacing.sm,
+    borderRadius: Radius.md,
+    alignSelf: 'flex-start',
+    marginTop: Spacing.sm,
+  },
+  advertisementButtonText: {
+    color: '#fff',
+    fontWeight: FontWeight.semibold,
+    fontSize: FontSize.sm,
+  },
+})

@@ -5,6 +5,8 @@ import HomeScreen from '../screens/homeScreen';
 import { Home, Pickaxe } from 'lucide-react-native';
 import { Colors } from '../utils/styles';
 import ProjectScreen from '../screens/projectScreen';
+import MessageScreen from '../screens/messageScreen';
+import { MessageSquare } from 'lucide-react-native/icons';
 
 const Tab = createBottomTabNavigator();
 
@@ -25,6 +27,15 @@ const BottomTab = () => {
                 options={{
                     headerShown: false,
                     tabBarIcon: ({ color, size }) => <Pickaxe color={Colors.success} size={size ?? 20} />,
+                }}
+            />
+            <Tab.Screen
+                name='messages'
+                component={MessageScreen}
+                options={{
+                    headerShown: false,
+                    tabBarIcon: ({ color, size }) => <MessageSquare color={Colors.success} size={size ?? 20} />,
+                    tabBarBadge: 0,
                 }}
             />
         </Tab.Navigator>

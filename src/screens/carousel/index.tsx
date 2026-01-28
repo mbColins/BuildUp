@@ -16,6 +16,8 @@ import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-nativ
 
 
 
+
+
 type ItemProps = {
   title: string,
   img: ImageSourcePropType,
@@ -152,7 +154,7 @@ const styles = StyleSheet.create({
     bottom: 49,
     flexDirection: 'row',
     justifyContent: 'center',
-    right: -170,
+    left: wp('35%'),
   },
   logo:{
     position:'absolute',

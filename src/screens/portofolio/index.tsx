@@ -142,12 +142,12 @@ const PortofolioScreen = () => {
       >
         <SafeAreaView style={styles.modalContainer}>
           {/* Close Button */}
-          <View style={{ alignItems: 'flex-end', position: 'absolute', left: wp('85%'), zIndex: 1 }}>
+          <View style={{ alignItems: 'flex-end', paddingHorizontal: 15}}>
             <Pressable
               style={styles.closeButton}
               onPress={() => setModalVisible(false)}
             >
-              <Text style={styles.closeButtonText}><X /></Text>
+              <X size={28} color={Colors.black} />
             </Pressable>
           </View>
 
@@ -231,15 +231,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   closeButton: {
-    padding: 15,
-    alignItems: 'center',
+    padding: 5,
     justifyContent: 'center',
-    width: 50,
-  },
-  closeButtonText: {
-    fontSize: 28,
-    color: Colors.primary,
-    fontWeight: 'bold',
+    position: 'absolute',
+    top: hp('2%'),
+    right: wp('4%'),
+    zIndex: 1,
   },
   mainImageContainer: {
     height: hp('70%'),

@@ -68,7 +68,8 @@ const styles = StyleSheet.create({
         fontStyle: 'italic',
         textAlign: 'center',
         marginVertical: hp('20%'),
-        color: Colors.textSecondary,
+        fontWeight: '500',
+        color: '#000000',
     },
     buttonText: {
         fontSize: FontSize.lg,

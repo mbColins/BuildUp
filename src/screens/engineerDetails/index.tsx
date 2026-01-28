@@ -191,7 +191,7 @@ const EngineerDetails = () => {
               </View>
             )).slice(0, 4)
           }
-          <TouchableOpacity style={{ display: 'flex', flexDirection: 'row', gap: '10', justifyContent: 'center', marginTop: 5 }}>
+          <TouchableOpacity onPress={() => navigation.navigate(Routes.REVIEWS)}  style={{ display: 'flex', flexDirection: 'row', gap: '10', justifyContent: 'center', marginTop: 5 }}>
             <Text style={{ color: Colors.success }}>see what users say about john doe</Text>
             <ArrowRight size={20} color={Colors.success} />
           </TouchableOpacity>

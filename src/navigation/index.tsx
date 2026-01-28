@@ -14,6 +14,8 @@ import EngineerDetails from '../screens/engineerDetails'
 import EngineerScreen from '../screens/engineers'
 import ProjectDetailScreen from '../screens/projectDetails'
 import PortofolioScreen from '../screens/portofolio'
+import ReviewScreen from '../screens/reviews'
+import MessageDetailScreen from '../screens/messageDetails'
 
 
 const Stack = createNativeStackNavigator()
@@ -79,6 +81,14 @@ const RootNavigation = () => {
         statusBarStyle: 'light',
       }} />
       <Stack.Screen name='portofolio' component={PortofolioScreen} options={{
+        headerShown: false,
+        statusBarStyle: 'light',
+      }} />
+      <Stack.Screen name='review' component={ReviewScreen} options={{
+        headerShown: false,
+        statusBarStyle: 'light',
+      }} />
+      <Stack.Screen name='messageDetails' component={MessageDetailScreen} options={{
         headerShown: false,
         statusBarStyle: 'light',
       }} />
