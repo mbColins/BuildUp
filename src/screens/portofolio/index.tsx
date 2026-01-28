@@ -4,21 +4,23 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import CustomeHeader from '../../components/CustomeHeader'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { Colors, FontSize } from '../../utils/styles';
-import { X } from 'lucide-react-native';
+import { ChevronLeft } from 'lucide-react-native';
 
 
-type portofolioProps = {
+type portfolioProps = {
   img: ImageProps,
   type: string,
   title: string,
+  description?: string,
   images?: ImageProps[]
 }
 
-const Portofolios: portofolioProps[] = [
+const Portfolios: portfolioProps[] = [
   {
     img: require('../../assets/images/getStarted.jpg'),
-    type: "story building",
-    title: "Residential building in Douala",
+    type: "Residential Building",
+    title: "Modern Residential Building in Douala",
+    description: "A 5-story residential complex with modern architecture and sustainable design features.",
     images: [
       require('../../assets/images/getStarted.jpg'),
       require('../../assets/images/str.jpg'),
@@ -29,8 +31,9 @@ const Portofolios: portofolioProps[] = [
   },
   {
     img: require('../../assets/images/structure.jpg'),
-    type: "story building",
-    title: "Residential building in Douala",
+    type: "Commercial Complex",
+    title: "Office Complex in Douala",
+    description: "State-of-the-art commercial building with offices and retail spaces.",
     images: [
       require('../../assets/images/structure.jpg'),
       require('../../assets/images/getStarted.jpg'),
@@ -39,49 +42,23 @@ const Portofolios: portofolioProps[] = [
   },
   {
     img: require('../../assets/images/structure.jpg'),
-    type: "story building",
-    title: "Residential building in Douala",
+    type: "Industrial Facility",
+    title: "Manufacturing Plant in Limbe",
+    description: "Large-scale industrial facility with modern infrastructure.",
     images: [
       require('../../assets/images/structure.jpg'),
       require('../../assets/images/getStarted.jpg'),
-    ]
-  },
-  {
-    img: require('../../assets/images/structure.jpg'),
-    type: "story building",
-    title: "Residential building in Douala",
-    images: [
-      require('../../assets/images/structure.jpg'),
-      require('../../assets/images/structure.jpg'),
-    ]
-  },
-  {
-    img: require('../../assets/images/structure.jpg'),
-    type: "story building",
-    title: "Residential building in Douala",
-    images: [
-      require('../../assets/images/structure.jpg'),
-      require('../../assets/images/getStarted.jpg'),
-    ]
-  },
-  {
-    img: require('../../assets/images/structure.jpg'),
-    type: "story building",
-    title: "Residential building in Douala",
-    images: [
-      require('../../assets/images/structure.jpg'),
-      require('../../assets/images/structure.jpg'),
     ]
   },
 ]
 
 
-const PortofolioScreen = () => {
+const PortfolioScreen = () => {
   const [modalVisible, setModalVisible] = useState(false);
-  const [selectedPortfolio, setSelectedPortfolio] = useState<portofolioProps | null>(null);
+  const [selectedPortfolio, setSelectedPortfolio] = useState<portfolioProps | null>(null);
   const [selectedImage, setSelectedImage] = useState<ImageProps | null>(null);
 
-  const handleCardPress = (portfolio: portofolioProps) => {
+  const handleCardPress = (portfolio: portfolioProps) => {
     setSelectedPortfolio(portfolio);
     setSelectedImage(portfolio.images ? portfolio.images[0] : portfolio.img);
     setModalVisible(true);
@@ -89,158 +66,201 @@ const PortofolioScreen = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <CustomeHeader text='My portofolio' />
-      <View>
-        <Text style={{ paddingHorizontal: 10, marginVertical: 5, fontWeight: '500' }}>A collection of my projects</Text>
+      <CustomeHeader text='My Portfolio' />
+      <View style={styles.contentContainer}>
+        <Text style={styles.descriptionText}>A collection of my completed projects</Text>
         <FlatList
-          data={Portofolios}
-          renderItem={({ item, index }) => (
+          data={Portfolios}
+          keyExtractor={(item, index) => index.toString()}
+          renderItem={({ item }) => (
             <Pressable
-              style={styles.portofolioCard}
+              style={styles.portfolioCard}
               onPress={() => handleCardPress(item)}
             >
               <Image
                 source={item.img}
-                height={hp('10%')}
-                style={{ height: hp('15%') }}
+                style={styles.cardImage}
+                resizeMode='cover'
               />
-              <View style={{ justifyContent: 'flex-start', width: wp('90%') }}>
-                <Text style={{ textAlign: 'left', color: Colors.textSecondary, fontStyle: 'italic' }}>{item.type}</Text>
-                <Text style={{ fontSize: FontSize.md, fontWeight: '500' }}>{item.title}</Text>
+              <View style={styles.cardContent}>
+                <Text style={styles.cardType}>{item.type}</Text>
+                <Text style={styles.cardTitle}>{item.title}</Text>
+                {item.description && <Text style={styles.cardDescription}>{item.description}</Text>}
               </View>
             </Pressable>
           )}
           scrollEnabled
-          style={{}}
+          nestedScrollEnabled
         />
-        <Pressable
-          style={styles.portofolioCard}
-          onPress={() => {
-            const lastPortfolio = Portofolios[Portofolios.length - 1];
-            handleCardPress(lastPortfolio);
-          }}
-        >
-          <Image
-            source={require('../../assets/images/structure.jpg')}
-            height={hp('10%')}
-            style={{ height: hp('15%') }}
-            resizeMode='center'
-          />
-          <View style={{ justifyContent: 'flex-start', width: wp('90%') }}>
-            <Text style={{ textAlign: 'left', color: Colors.textSecondary, fontStyle: 'italic' }}>duplex construction</Text>
-            <Text style={{ fontSize: FontSize.md, fontWeight: '500' }}>Residential building in Douala Bonamoussadi</Text>
-          </View>
-        </Pressable>
       </View>
 
-      {/* Image Modal */}
+      {/* Project Details Modal */}
       <Modal
         visible={modalVisible}
-        transparent={true}
+        transparent={false}
         animationType="slide"
         onRequestClose={() => setModalVisible(false)}
       >
         <SafeAreaView style={styles.modalContainer}>
-          {/* Close Button */}
-          <View style={{ alignItems: 'flex-end', paddingHorizontal: 15}}>
+          {/* Header with Back Button */}
+          <View style={styles.modalHeader}>
             <Pressable
-              style={styles.closeButton}
+              style={styles.backButton}
               onPress={() => setModalVisible(false)}
             >
-              <X size={28} color={Colors.black} />
+              <ChevronLeft size={28} color='#000' />
             </Pressable>
+            <Text style={styles.modalHeaderTitle}>Project Details</Text>
+            <View style={{ width: 28 }} />
           </View>
 
-          {/* Main Image Display */}
-          <View style={styles.mainImageContainer}>
-            {selectedImage && (
-              <Image
-                source={selectedImage}
-                style={styles.mainImage}
-                resizeMode="cover"
-              />
+          <ScrollView style={styles.modalScroll} showsVerticalScrollIndicator={false}>
+            {/* Main Image Display */}
+            <View style={styles.mainImageContainer}>
+              {selectedImage && (
+                <Image
+                  source={selectedImage}
+                  style={styles.mainImage}
+                  resizeMode="cover"
+                />
+              )}
+            </View>
+
+            {/* Project Information */}
+            {selectedPortfolio && (
+              <View style={styles.projectInfoContainer}>
+                <Text style={styles.projectType}>{selectedPortfolio.type}</Text>
+                <Text style={styles.projectTitle}>{selectedPortfolio.title}</Text>
+                {selectedPortfolio.description && (
+                  <Text style={styles.projectDescription}>{selectedPortfolio.description}</Text>
+                )}
+              </View>
             )}
-          </View>
 
-          {/* Project Title */}
-          {selectedPortfolio && (
-            <View style={styles.projectInfoContainer}>
-              <Text style={styles.projectType}>{selectedPortfolio.type}</Text>
-              <Text style={styles.projectTitle}>{selectedPortfolio.title}</Text>
-            </View>
-          )}
+            {/* Project Gallery */}
+            {selectedPortfolio && selectedPortfolio.images && (
+              <View style={styles.galleryContainer}>
+                <Text style={styles.galleryTitle}>Gallery</Text>
+                <View style={styles.thumbnailGrid}>
+                  {selectedPortfolio.images.map((image, index) => (
+                    <Pressable
+                      key={index}
+                      onPress={() => setSelectedImage(image)}
+                      style={[
+                        styles.thumbnailItem,
+                        selectedImage === image && styles.selectedThumbnail
+                      ]}
+                    >
+                      <Image
+                        source={image}
+                        style={styles.thumbnailImage}
+                        resizeMode="cover"
+                      />
+                    </Pressable>
+                  ))}
+                </View>
+              </View>
+            )}
 
-          {/* Scrollable Thumbnails */}
-          {selectedPortfolio && selectedPortfolio.images && (
-            <View style={styles.thumbnailContainer}>
-              <Text style={styles.thumbnailLabel}>Project Images</Text>
-              <ScrollView
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                style={styles.thumbnailScroll}
-              >
-                {selectedPortfolio.images.map((image, index) => (
-                  <Pressable
-                    key={index}
-                    onPress={() => setSelectedImage(image)}
-                    style={[
-                      styles.thumbnail,
-                      selectedImage === image && styles.selectedThumbnail
-                    ]}
-                  >
-                    <Image
-                      source={image}
-                      style={styles.thumbnailImage}
-                      resizeMode="cover"
-                    />
-                  </Pressable>
-                ))}
-              </ScrollView>
-            </View>
-          )}
+            <View style={{ height: hp('2%') }} />
+          </ScrollView>
         </SafeAreaView>
       </Modal>
     </SafeAreaView>
   )
 }
 
-export default PortofolioScreen
+export default PortfolioScreen
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#fff' },
-  portofolioCard: {
+  container: {
+    flex: 1,
+    backgroundColor: '#fafafa',
+  },
+  contentContainer: {
+    flex: 1,
+    paddingHorizontal: wp('3%'),
+    paddingVertical: hp('1%'),
+  },
+  descriptionText: {
+    fontSize: 14,
+    color: Colors.textSecondary,
+    fontWeight: '500',
+    paddingHorizontal: wp('2%'),
+    marginBottom: hp('1.5%'),
+  },
+  
+  // Portfolio Card Styles
+  portfolioCard: {
     backgroundColor: '#fff',
-    borderRadius: 10,
+    borderRadius: 12,
     overflow: 'hidden',
     marginVertical: hp('1%'),
-    marginHorizontal: wp('2%'),
-    alignItems: 'center',
-    elevation: 3,
+    marginHorizontal: wp('1%'),
+    elevation: 2,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 3,
-    width: wp('96%'),
-    flexDirection: 'column',
-    alignContent: 'center',
-    padding: 5
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.08,
+    shadowRadius: 2,
   },
+  cardImage: {
+    width: '100%',
+    height: hp('20%'),
+    backgroundColor: '#f0f0f0',
+  },
+  cardContent: {
+    padding: wp('4%'),
+  },
+  cardType: {
+    fontSize: 12,
+    color: Colors.success,
+    fontWeight: '600',
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
+    marginBottom: hp('0.5%'),
+  },
+  cardTitle: {
+    fontSize: 16,
+    fontWeight: '700',
+    color: '#000',
+    marginBottom: hp('0.8%'),
+    lineHeight: 22,
+  },
+  cardDescription: {
+    fontSize: 13,
+    color: Colors.textSecondary,
+    lineHeight: 18,
+  },
+
   // Modal Styles
   modalContainer: {
     flex: 1,
     backgroundColor: '#fff',
   },
-  closeButton: {
-    padding: 5,
-    justifyContent: 'center',
-    position: 'absolute',
-    top: hp('2%'),
-    right: wp('4%'),
-    zIndex: 1,
+  modalHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: wp('4%'),
+    paddingVertical: hp('1.5%'),
+    borderBottomWidth: 1,
+    borderBottomColor: '#e0e0e0',
+    backgroundColor: '#fff',
+  },
+  backButton: {
+    padding: wp('2%'),
+  },
+  modalHeaderTitle: {
+    fontSize: 16,
+    fontWeight: '700',
+    color: '#000',
+  },
+  modalScroll: {
+    flex: 1,
   },
   mainImageContainer: {
-    height: hp('70%'),
     width: '100%',
+    height: hp('50%'),
     backgroundColor: '#f0f0f0',
     overflow: 'hidden',
   },
@@ -249,48 +269,59 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   projectInfoContainer: {
-    paddingHorizontal: wp('5%'),
-    paddingVertical: hp('2%'),
+    paddingHorizontal: wp('4%'),
+    paddingVertical: hp('2.5%'),
     borderBottomWidth: 1,
     borderBottomColor: '#e0e0e0',
   },
   projectType: {
-    color: Colors.textSecondary,
-    fontStyle: 'italic',
     fontSize: 12,
-    marginBottom: 5,
+    color: Colors.success,
+    fontWeight: '600',
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
+    marginBottom: hp('0.5%'),
   },
   projectTitle: {
-    fontSize: FontSize.md,
-    fontWeight: '500',
-    color: Colors.textPrimary,
+    fontSize: 20,
+    fontWeight: '700',
+    color: '#000',
+    marginBottom: hp('1%'),
+    lineHeight: 28,
   },
-  thumbnailContainer: {
-    flex: 1,
-    paddingHorizontal: wp('5%'),
-    paddingVertical: hp('2%'),
-    backgroundColor:'#e6e2e2b4'
-  },
-  thumbnailLabel: {
+  projectDescription: {
     fontSize: 14,
-    fontWeight: '600',
+    color: Colors.textSecondary,
+    lineHeight: 22,
+  },
+
+  // Gallery Styles
+  galleryContainer: {
+    paddingHorizontal: wp('4%'),
+    paddingVertical: hp('2.5%'),
+  },
+  galleryTitle: {
+    fontSize: 16,
+    fontWeight: '700',
+    color: '#000',
     marginBottom: hp('1.5%'),
-    color: Colors.textPrimary,
   },
-  thumbnailScroll: {
-    flexGrow: 0,
+  thumbnailGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: wp('2%'),
   },
-  thumbnail: {
-    width: wp('20%'),
-    height: hp('12%'),
-    borderRadius: 8,
-    marginRight: wp('2%'),
+  thumbnailItem: {
+    width: '48%',
+    aspectRatio: 1,
+    borderRadius: 10,
     overflow: 'hidden',
-    borderWidth: 2,
+    borderWidth: 3,
     borderColor: 'transparent',
+    backgroundColor: '#f0f0f0',
   },
   selectedThumbnail: {
-    borderColor: Colors.primary,
+    borderColor: Colors.success,
   },
   thumbnailImage: {
     width: '100%',
