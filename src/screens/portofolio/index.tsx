@@ -110,11 +110,13 @@ const PortfolioScreen = () => {
             >
               <ChevronLeft size={28} color='#000' />
             </Pressable>
-            <Text style={styles.modalHeaderTitle}>Project Details</Text>
+
             <View style={{ width: 28 }} />
           </View>
 
-          <ScrollView style={styles.modalScroll} showsVerticalScrollIndicator={false}>
+          <ScrollView style={styles.modalScroll}
+            scrollEnabled={false}
+            showsVerticalScrollIndicator={false}>
             {/* Main Image Display */}
             <View style={styles.mainImageContainer}>
               {selectedImage && (
@@ -141,7 +143,11 @@ const PortfolioScreen = () => {
             {selectedPortfolio && selectedPortfolio.images && (
               <View style={styles.galleryContainer}>
                 <Text style={styles.galleryTitle}>Gallery</Text>
-                <View style={styles.thumbnailGrid}>
+                <ScrollView
+                  horizontal
+                  showsHorizontalScrollIndicator={false}
+                  style={styles.galleryScroll}
+                >
                   {selectedPortfolio.images.map((image, index) => (
                     <Pressable
                       key={index}
@@ -158,7 +164,7 @@ const PortfolioScreen = () => {
                       />
                     </Pressable>
                   ))}
-                </View>
+                </ScrollView>
               </View>
             )}
 
@@ -189,7 +195,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: wp('2%'),
     marginBottom: hp('1.5%'),
   },
-  
+
   // Portfolio Card Styles
   portfolioCard: {
     backgroundColor: '#fff',
@@ -245,7 +251,11 @@ const styles = StyleSheet.create({
     paddingVertical: hp('1.5%'),
     borderBottomWidth: 1,
     borderBottomColor: '#e0e0e0',
-    backgroundColor: '#fff',
+    position: 'absolute',
+    top: 0,
+    width: '100%',
+    zIndex: 10,
+    // backgroundColor: '#fff',
   },
   backButton: {
     padding: wp('2%'),
@@ -260,13 +270,13 @@ const styles = StyleSheet.create({
   },
   mainImageContainer: {
     width: '100%',
-    height: hp('50%'),
+    height: hp('60%'),
     backgroundColor: '#f0f0f0',
     overflow: 'hidden',
   },
   mainImage: {
     width: '100%',
-    height: '100%',
+    height: hp('80%'),
   },
   projectInfoContainer: {
     paddingHorizontal: wp('4%'),
@@ -306,19 +316,23 @@ const styles = StyleSheet.create({
     color: '#000',
     marginBottom: hp('1.5%'),
   },
+  galleryScroll: {
+    flexGrow: 0,
+  },
   thumbnailGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     gap: wp('2%'),
   },
   thumbnailItem: {
-    width: '48%',
+    width: wp('28%'),
     aspectRatio: 1,
     borderRadius: 10,
     overflow: 'hidden',
     borderWidth: 3,
     borderColor: 'transparent',
     backgroundColor: '#f0f0f0',
+    marginRight: wp('2%'),
   },
   selectedThumbnail: {
     borderColor: Colors.success,

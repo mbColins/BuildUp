@@ -28,6 +28,7 @@ export const Colors = {
 
   error: '#FF3B30',
   success: '#089447',
+  black: '#000000',
 
   titles: '#089447',
 };

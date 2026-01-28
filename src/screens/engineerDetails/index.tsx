@@ -147,7 +147,7 @@ const EngineerDetails = () => {
     Alert.alert('Contact Engineer', 'Choose communication method:', [
       { text: 'Cancel', onPress: () => {}, style: 'cancel' },
       { text: 'Call', onPress: () => Alert.alert('Call', '657 15 93 01') },
-      { text: 'Message', onPress: () => navigation.navigate(Routes.MESSAGEDETAILS) },
+      { text: 'Message', onPress: () => navigation.navigate(Routes.MESSAGE_DETAILS) },
     ]);
   };
 
